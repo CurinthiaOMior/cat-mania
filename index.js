@@ -9,13 +9,13 @@ const ALTURA_GATO = 100
 const LARGURA_GATO = 50
 const POS_X_GATO = canvas.width / 2 - LARGURA_GATO
 const POS_Y_GATO = canvas.height / 3 - ALTURA_GATO / 2
-const VELOCIDADE_GATO = 5
+const VELOCIDADE_GATO = 3
 
 const ALTURA_GATO2 = 100
 const LARGURA_GATO2 = 50
 const POS_X_GATO2 = canvas.width / 2 - LARGURA_GATO
 const POS_Y_GATO2 = canvas.height / 3 * 2
-const VELOCIDADE_GATO2 = 5
+const VELOCIDADE_GATO2 = 3
 
 const gatos = [new Gato(POS_X_GATO, POS_Y_GATO, LARGURA_GATO, ALTURA_GATO, VELOCIDADE_GATO, './img/gato/gato1.png'), new Gato(POS_X_GATO2, POS_Y_GATO2, LARGURA_GATO2, ALTURA_GATO2, VELOCIDADE_GATO2, './img/gato/gato1.png')]
 
@@ -143,6 +143,33 @@ function checarColisao() {
     })
 }
 
+function tratarColisaoGatos() {
+    if (gatos[0].colideCom(gatos[1])) {
+        
+        let gatoCima;
+        let gatoBaixo;
+
+        // Descobre qual gato está mais acima na tela
+        if (gatos[0].posY < gatos[1].posY) {
+            gatoCima = gatos[0];
+            gatoBaixo = gatos[1];
+        } else {
+            gatoCima = gatos[1];
+            gatoBaixo = gatos[0];
+        }
+
+        // Se o gato de cima tentar descer ele é forçado a parar
+        if (gatoCima.direcao === 1) {
+            gatoCima.direcao = 0;
+        }
+
+        // Se o gato de baixo tentar subir ele é forçado a parar
+        if (gatoBaixo.direcao === -1) {
+            gatoBaixo.direcao = 0;
+        }
+    }
+}
+
 function checarMorte() {
     gatos.forEach(gato => {
         if (gato.vida <= 0) {
@@ -152,6 +179,7 @@ function checarMorte() {
 }
 
 function atualiza() {
+    tratarColisaoGatos()
     gatos.forEach(gato => {
         gato.atualiza()
     })
