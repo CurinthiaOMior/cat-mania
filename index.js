@@ -1,7 +1,9 @@
 export const canvas = document.getElementById('canvas')
 export const contexto = canvas.getContext('2d')
 import Cachorro from "./models/Cachorro.js"
+import Catnip from "./models/Catnip.js"
 import Gato from "./models/Gato.js"
+import Rato from "./models/Rato.js"
 
 const ALTURA_GATO = 100
 const LARGURA_GATO = 50
@@ -35,6 +37,45 @@ for (let i = 0; i < QUANTIDADE_CACHORROS; i++) {
     cachorros.push(new Cachorro(POS_X_CACHORRO, POS_Y_CACHORRO, LARGURA_CACHORRO, ALTURA_CACHORRO, VELOCIDADE_CACHORRO, './img/cachorro/cachorro1.png'))
 }
 
+
+const LARGURA_MIN_RATO = 30
+const LARGURA_MAX_RATO = 45
+const VELOCIDADE_MIN_RATO = 5
+const VELOCIDADE_MAX_RATO = 6
+const PROPORCAO_RATO = 1.25
+
+const QUANTIDADE_RATOS = 10
+
+const ratos = []
+for (let i = 0; i < QUANTIDADE_RATOS; i++) {
+    const LARGURA_RATO = Math.random() * (LARGURA_MAX_RATO - LARGURA_MIN_RATO) + LARGURA_MIN_RATO;
+    const ALTURA_RATO = LARGURA_RATO * PROPORCAO_RATO;
+    const POS_X_RATO = canvas.width +  (Math.random() * canvas.width * i)
+    const POS_Y_RATO = (-ALTURA_RATO / 2) + Math.random() * ((canvas.height - ALTURA_RATO / 2 - 1) - (-ALTURA_RATO / 2));
+    const VELOCIDADE_RATO = Math.random() * (VELOCIDADE_MAX_RATO - VELOCIDADE_MIN_RATO) + VELOCIDADE_MIN_RATO;
+    ratos.push(new Rato(POS_X_RATO, POS_Y_RATO, LARGURA_RATO, ALTURA_RATO, VELOCIDADE_RATO, './img/rato/rato1.png'))
+}
+
+//
+const LARGURA_MIN_CATNIP = 30
+const LARGURA_MAX_CATNIP = 45
+const VELOCIDADE_MIN_CATNIP = 5
+const VELOCIDADE_MAX_CATNIP = 6
+const PROPORCAO_CATNIP = 1.25
+
+const QUANTIDADE_CATNIPS = 10
+
+const catnips = []
+for (let i = 0; i < QUANTIDADE_CATNIPS; i++) {
+    const LARGURA_CATNIP = Math.random() * (LARGURA_MAX_CATNIP - LARGURA_MIN_CATNIP) + LARGURA_MIN_CATNIP;
+    const ALTURA_CATNIP = LARGURA_CATNIP * PROPORCAO_CATNIP;
+    const POS_X_CATNIP = canvas.width +  (Math.random() * canvas.width * i)
+    const POS_Y_CATNIP = (-ALTURA_CATNIP / 2) + Math.random() * ((canvas.height - ALTURA_CATNIP / 2 - 1) - (-ALTURA_CATNIP / 2));
+    const VELOCIDADE_CATNIP = Math.random() * (VELOCIDADE_MAX_CATNIP - VELOCIDADE_MIN_CATNIP) + VELOCIDADE_MIN_CATNIP;
+    catnips.push(new Catnip(POS_X_CATNIP, POS_Y_CATNIP, LARGURA_CATNIP, ALTURA_CATNIP, VELOCIDADE_CATNIP, './img/gato/gato copy 2.png'))
+}
+//
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 's') {
         gatos[0].direcao = 1
@@ -59,12 +100,24 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-function resetarCachorros() {
+function resetarEntidades() {
     cachorros.forEach(cachorro => {
         if (cachorro.posX >= canvas.width + cachorro.largura) {
             cachorro.reseta()
         }
     })
+    ratos.forEach(rato =>{
+        if (rato.posX <= rato.largura){
+            rato.reseta()
+        }
+    })
+    catnips.forEach(catnip =>{
+        if (catnip.posX <= catnip.largura){
+            catnip.reseta()
+        }
+    })
+    
+
 }
 
 function checarColisao() {
@@ -73,7 +126,18 @@ function checarColisao() {
             if (gato.colideCom(cachorro)) {
                 cachorro.mata()
                 gato.vida = Math.max(0, gato.vida - 1) // Math.max retorna o menor numero dos 2
-                console.log(gato.vida)
+            }
+        })
+        ratos.forEach(rato => {
+            if (gato.colideCom(rato)) {
+                rato.mata()
+                gato.pontos += rato.pontos //aumenta os pontos do gato
+            }
+        })
+        catnips.forEach(catnip => {
+            if (gato.colideCom(catnip)) {
+                catnip.mata()
+                gato.vida++ // da vida pro gato
             }
         })
     })
@@ -94,9 +158,15 @@ function atualiza() {
     cachorros.forEach(cachorro => {
         cachorro.atualiza()
     })
+    ratos.forEach(rato =>{
+        rato.atualiza()
+    })
+    catnips.forEach(catnip =>{
+        catnip.atualiza()
+    })
     checarMorte()
     checarColisao()
-    resetarCachorros()
+    resetarEntidades()
 }
 
 function renderiza() {
@@ -107,6 +177,13 @@ function renderiza() {
     cachorros.forEach(cachorro => {
         cachorro.renderiza()
     })
+    ratos.forEach(rato => {
+        rato.renderiza()
+    })
+    catnips.forEach(catnip => {
+        catnip.renderiza()
+    })
+
 }
 
 function main() {
