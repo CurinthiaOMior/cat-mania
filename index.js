@@ -1,7 +1,7 @@
 export const canvas = document.getElementById('canvas')
 export const contexto = canvas.getContext('2d')
 import Cachorro from "./models/Cachorro.js"
-import Catnip from "./models/Catnip.js"
+import Petisco from "./models/Petisco.js"
 import Gato from "./models/Gato.js"
 import Rato from "./models/Rato.js"
 
@@ -57,22 +57,22 @@ for (let i = 0; i < QUANTIDADE_RATOS; i++) {
 }
 
 //
-const LARGURA_MIN_CATNIP = 30
-const LARGURA_MAX_CATNIP = 45
-const VELOCIDADE_MIN_CATNIP = 5
-const VELOCIDADE_MAX_CATNIP = 6
-const PROPORCAO_CATNIP = 1.25
+const LARGURA_MIN_PETISCO = 30
+const LARGURA_MAX_PETISCO = 45
+const VELOCIDADE_MIN_PETISCO = 5
+const VELOCIDADE_MAX_PETISCO = 6
+const PROPORCAO_PETISCO = 1.25
 
-const QUANTIDADE_CATNIPS = 10
+const QUANTIDADE_PETISCOS = 10
 
-const catnips = []
-for (let i = 0; i < QUANTIDADE_CATNIPS; i++) {
-    const LARGURA_CATNIP = Math.random() * (LARGURA_MAX_CATNIP - LARGURA_MIN_CATNIP) + LARGURA_MIN_CATNIP;
-    const ALTURA_CATNIP = LARGURA_CATNIP * PROPORCAO_CATNIP;
-    const POS_X_CATNIP = canvas.width +  (Math.random() * canvas.width * i)
-    const POS_Y_CATNIP = (-ALTURA_CATNIP / 2) + Math.random() * ((canvas.height - ALTURA_CATNIP / 2 - 1) - (-ALTURA_CATNIP / 2));
-    const VELOCIDADE_CATNIP = Math.random() * (VELOCIDADE_MAX_CATNIP - VELOCIDADE_MIN_CATNIP) + VELOCIDADE_MIN_CATNIP;
-    catnips.push(new Catnip(POS_X_CATNIP, POS_Y_CATNIP, LARGURA_CATNIP, ALTURA_CATNIP, VELOCIDADE_CATNIP, './img/gato/gato copy 2.png'))
+const petiscos = []
+for (let i = 0; i < QUANTIDADE_PETISCOS; i++) {
+    const LARGURA_PETISCO = Math.random() * (LARGURA_MAX_PETISCO - LARGURA_MIN_PETISCO) + LARGURA_MIN_PETISCO;
+    const ALTURA_PETISCO = LARGURA_PETISCO * PROPORCAO_PETISCO;
+    const POS_X_PETISCO = canvas.width +  (Math.random() * canvas.width * i)
+    const POS_Y_PETISCO = (-ALTURA_PETISCO / 2) + Math.random() * ((canvas.height - ALTURA_PETISCO / 2 - 1) - (-ALTURA_PETISCO / 2));
+    const VELOCIDADE_PETISCO = Math.random() * (VELOCIDADE_MAX_PETISCO - VELOCIDADE_MIN_PETISCO) + VELOCIDADE_MIN_PETISCO;
+    petiscos.push(new Petisco(POS_X_PETISCO, POS_Y_PETISCO, LARGURA_PETISCO, ALTURA_PETISCO, VELOCIDADE_PETISCO, './img/gato/gato copy 2.png'))
 }
 //
 
@@ -111,9 +111,9 @@ function resetarEntidades() {
             rato.reseta()
         }
     })
-    catnips.forEach(catnip =>{
-        if (catnip.posX <= catnip.largura){
-            catnip.reseta()
+    petiscos.forEach(petisco =>{
+        if (petisco.posX <= petisco.largura){
+            petisco.reseta()
         }
     })
     
@@ -134,9 +134,9 @@ function checarColisao() {
                 gato.pontos += rato.pontos //aumenta os pontos do gato
             }
         })
-        catnips.forEach(catnip => {
-            if (gato.colideCom(catnip)) {
-                catnip.mata()
+        petiscos.forEach(petisco => {
+            if (gato.colideCom(petisco)) {
+                petisco.mata()
                 gato.vida++ // da vida pro gato
             }
         })
@@ -161,8 +161,8 @@ function atualiza() {
     ratos.forEach(rato =>{
         rato.atualiza()
     })
-    catnips.forEach(catnip =>{
-        catnip.atualiza()
+    petiscos.forEach(petisco =>{
+        petisco.atualiza()
     })
     checarMorte()
     checarColisao()
@@ -180,8 +180,8 @@ function renderiza() {
     ratos.forEach(rato => {
         rato.renderiza()
     })
-    catnips.forEach(catnip => {
-        catnip.renderiza()
+    petiscos.forEach(petisco => {
+        petisco.renderiza()
     })
 
 }

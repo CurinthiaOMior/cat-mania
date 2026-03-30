@@ -1,7 +1,7 @@
 import { canvas } from '../index.js';
 import Entidade from './Entidade.js';
 
-export default class Catnip extends Entidade {
+export default class Petisco extends Entidade {
 	vivo = true;
 	podeResetar = true;
 	mata() {
