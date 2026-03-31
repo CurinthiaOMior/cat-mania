@@ -72,7 +72,7 @@ for (let i = 0; i < QUANTIDADE_PETISCOS; i++) {
     const POS_X_PETISCO = canvas.width +  (Math.random() * canvas.width * i)
     const POS_Y_PETISCO = (-ALTURA_PETISCO / 2) + Math.random() * ((canvas.height - ALTURA_PETISCO / 2 - 1) - (-ALTURA_PETISCO / 2));
     const VELOCIDADE_PETISCO = Math.random() * (VELOCIDADE_MAX_PETISCO - VELOCIDADE_MIN_PETISCO) + VELOCIDADE_MIN_PETISCO;
-    petiscos.push(new Petisco(POS_X_PETISCO, POS_Y_PETISCO, LARGURA_PETISCO, ALTURA_PETISCO, VELOCIDADE_PETISCO, './img/gato/gato copy 2.png'))
+    petiscos.push(new Petisco(POS_X_PETISCO, POS_Y_PETISCO, LARGURA_PETISCO, ALTURA_PETISCO, VELOCIDADE_PETISCO, './img/cachorro/cachorro4.png'))
 }
 //
 
@@ -99,6 +99,14 @@ document.addEventListener('keyup', (e) => {
         gatos[1].direcao = 0
     }
 });
+
+// function trocarFaze(){
+//     if(gatos[0].pontos <= 1000 || gatos[1].pontos <= 1000){
+//     contexto.drawImage('./img/background/WhatsApp Image 2026-03-30 at 19.27.31.jpeg' ,0, 0, 1280, 720)   
+//     }else if(gatos[0].pontos >= 1000 || gatos[1].pontos >= 1000){
+        
+//     }
+// }
 
 function resetarEntidades() {
     cachorros.forEach(cachorro => {
