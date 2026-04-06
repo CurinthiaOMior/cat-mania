@@ -1,8 +1,3 @@
-// é um gato
-// se move no eixo Y
-// colide com cachorroes
-// perde vida
-// pontua
 import { canvas } from "../index.js";
 import Entidade from "./Entidade.js";
 export default class Gato extends Entidade{
