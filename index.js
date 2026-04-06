@@ -309,6 +309,85 @@ function renderizarDerrota() {
 
 // ----------------------------------------------------------- //
 
+function renderizaHud() {
+    // Configurações da fonte
+    contexto.font = 'bold 24px "Courier New", monospace';
+    contexto.textBaseline = 'top';
+
+    // --------------------------------------------------------
+    // 1. Mostrar a fase no canto superior esquerdo
+    // --------------------------------------------------------
+    // (Lógica rápida: Se faseAtual for 0, mostramos 1 para o jogador)
+    let faseDisplay = faseAtual === 0 ? 1 : faseAtual;
+    
+    contexto.textAlign = 'left';
+    contexto.fillStyle = 'black'; // Sombra
+    contexto.fillText(`Fase: ${faseDisplay}`, 22, 22); 
+    contexto.fillStyle = '#F6E27F'; // Amarelinho pixel
+    contexto.fillText(`Fase: ${faseDisplay}`, 20, 20);
+
+    // --------------------------------------------------------
+    // 2. Mostrar pontos no canto superior direito
+    // --------------------------------------------------------
+    contexto.textAlign = 'right';
+    
+    // Pontos Gato 1
+    contexto.fillStyle = 'black';
+    contexto.fillText(`Gato 1: ${gatos[0].pontos} pts`, canvas.width - 18, 22);
+    contexto.fillStyle = 'white';
+    contexto.fillText(`Gato 1: ${gatos[0].pontos} pts`, canvas.width - 20, 20);
+
+    // Pontos Gato 2 (desenhado um pouco mais abaixo)
+    contexto.fillStyle = 'black';
+    contexto.fillText(`Gato 2: ${gatos[1].pontos} pts`, canvas.width - 18, 52);
+    contexto.fillStyle = 'white';
+    contexto.fillText(`Gato 2: ${gatos[1].pontos} pts`, canvas.width - 20, 50);
+
+    // --------------------------------------------------------
+    // 3. Barras de Vida (Centro-superior)
+    // --------------------------------------------------------
+    let maxVida = 3;
+    let larguraBarra = 120;
+    let alturaBarra = 20;
+    let centroX = canvas.width / 2;
+
+    // Fundo das barras (Cinza escuro transparente)
+    contexto.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    contexto.fillRect(centroX - larguraBarra - 10, 20, larguraBarra, alturaBarra); // Gato 1 (Esquerda)
+    contexto.fillRect(centroX + 10, 20, larguraBarra, alturaBarra);                // Gato 2 (Direita)
+
+    // Preenchimento de Vida Gato 1
+    let vidaG1 = Math.max(0, gatos[0].vida); // Evita barra negativa
+    contexto.fillStyle = vidaG1 > 1 ? '#55FF55' : '#FF5555'; // Fica vermelho se estiver com 1 de vida
+    contexto.fillRect(centroX - larguraBarra - 10, 20, (vidaG1 / maxVida) * larguraBarra, alturaBarra);
+
+    // Preenchimento de Vida Gato 2
+    let vidaG2 = Math.max(0, gatos[1].vida);
+    contexto.fillStyle = vidaG2 > 1 ? '#55FF55' : '#FF5555';
+    contexto.fillRect(centroX + 10, 20, (vidaG2 / maxVida) * larguraBarra, alturaBarra);
+
+    // Contorno (Bordas) das barras
+    contexto.strokeStyle = 'white';
+    contexto.lineWidth = 2;
+    contexto.strokeRect(centroX - larguraBarra - 10, 20, larguraBarra, alturaBarra);
+    contexto.strokeRect(centroX + 10, 20, larguraBarra, alturaBarra);
+
+    // Legendas embaixo das barras ("P1" e "P2")
+    contexto.font = 'bold 14px "Courier New", monospace';
+    contexto.textAlign = 'center';
+    contexto.fillStyle = 'white';
+    
+    // Sombra das legendas
+    contexto.fillStyle = 'black';
+    contexto.fillText("VIDA P1", centroX - (larguraBarra / 2) - 9, 46);
+    contexto.fillText("VIDA P2", centroX + (larguraBarra / 2) + 11, 46);
+    
+    // Texto das legendas
+    contexto.fillStyle = 'white';
+    contexto.fillText("VIDA P1", centroX - (larguraBarra / 2) - 10, 45);
+    contexto.fillText("VIDA P2", centroX + (larguraBarra / 2) + 10, 45);
+}
+
 function renderiza() {
     contexto.clearRect(0, 0, canvas.width, canvas.height)
     
@@ -317,6 +396,7 @@ function renderiza() {
             if (background.complete) {
                 contexto.drawImage(background, 0, 0, canvas.width, canvas.height)
             }
+            renderizaHud()
             gatos.forEach(gato => gato.renderiza())
             cachorros.forEach(cachorro => cachorro.renderiza())
             ratos.forEach(rato => rato.renderiza())
