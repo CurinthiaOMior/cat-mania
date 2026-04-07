@@ -15,15 +15,15 @@ export default class Entidade {
         contexto.drawImage(this.sprite, this.posX, this.posY, this.largura, this.altura);
 
         // pra tirar a hitbox tira da qui pra baixo
-        const centroX = this.posX + this.largura / 2;
-        const centroY = this.posY + this.altura / 2;
-        const raioX = (this.largura / 2) * 0.9;
-        const raioY = (this.altura / 2) * 0.9;
+        // const centroX = this.posX + this.largura / 2;
+        // const centroY = this.posY + this.altura / 2;
+        // const raioX = (this.largura / 2) * 0.9;
+        // const raioY = (this.altura / 2) * 0.9;
 
-        contexto.beginPath();
-        contexto.ellipse(centroX, centroY, raioX, raioY, 0, 0, Math.PI * 2);
-        contexto.strokeStyle = "red";
-        contexto.stroke();
+        // contexto.beginPath();
+        // contexto.ellipse(centroX, centroY, raioX, raioY, 0, 0, Math.PI * 2);
+        // contexto.strokeStyle = "red";
+        // contexto.stroke();
     }
 
     colideCom(entidade) {
